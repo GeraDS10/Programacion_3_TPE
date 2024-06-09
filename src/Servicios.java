@@ -21,15 +21,17 @@ public class Servicios {
     private int cantidadEstadosBacktracking;
 
     private int cantidadCandidatosGreedy;
+    private CSVReader reader;
 
     /*
-     * Expresar la complejidad temporal del constructor.
+     * La complejidad temporal del constructor sera O(n), ya que la iniciacion de atributos tiene
+     * una complejidad O(1) y la complejidad de la lectura de archivos CSV poseen una complejidad O(n) + O(n)
      */
     public Servicios(String pathProcesadores, String pathTareas, int X)
     {
         tareas = new LinkedList<>();
         procesadores = new LinkedList<>();
-        CSVReader reader = new CSVReader();
+        reader = new CSVReader();
         procesadores = reader.readProcessors(pathProcesadores);
         tareas = reader.readTasks(pathTareas);
         this.X = X;
@@ -37,8 +39,6 @@ public class Servicios {
         cantidadEstadosBacktracking = 0;
         solucionBacktracking = new LinkedList<>();
         cantidadCandidatosGreedy = 0;
-
-
     }
 
 
@@ -96,11 +96,16 @@ public class Servicios {
 * -------------------------------------- BACKTRACKING -----------------------------------------------
 * */
 
-    public int getTiempoOptimoBacktracking(){
-        return this.tiempoOptimo;
-    }
+    /**
+    La estrategia elegida para realizar el algoritmo de backtracking fue buscar la mayor cantidad de asigaciones de tareas entre los procesadores,
+    cumpliendo con las restricciones y analizando el tiempo optimo de realizacion de las tareas de cada solucion para asi hallar la óptima.
+     */
     public void backtracking() {
         asignarTareas(0);
+        System.out.println("SOLUCION BACKTRACKING");
+        mostrarSolucion(this.solucionBacktracking);
+        System.out.println("El tiempo maximo de ejecución backtracking es: " + this.tiempoOptimo);
+        System.out.println("La cantidad de estados generados es: " + this.cantidadEstadosBacktracking);
     }
 
     private void asignarTareas(int indiceTarea) {
@@ -141,18 +146,15 @@ public class Servicios {
         return tiempoMaximo;
     }
 
-    public int getCantidadEstadosBacktraking(){
-        return this.cantidadEstadosBacktracking;
-    }
-
-    public LinkedList<Procesador> getSolucionBacktracking(){
-        return new LinkedList<Procesador>(this.solucionBacktracking);
-    }
 
     /*
-    --------------------------------GREEDYYY-------------------------------------------
+    --------------------------------GREEDY-------------------------------------------
      */
 
+    /**
+     * Para la soluciòn mediante el algoritmo Greedy se recorre los procesadores para asignar las tareas, verificando en cada uno que se cumplan las restricciones
+     * y luego que sea el procesador que tenga el menor tiempo total en realizacion de tareas
+    * */
     public void greedy() {
            for (Tarea tareaActual : this.tareas) {
             Procesador mejorProcesador = null;
@@ -175,12 +177,14 @@ public class Servicios {
                 System.out.println("No se puede asignar la tarea -> " + tareaActual);
             }
         }
-           mostrarSolucion();
-           calcularTiempoMaximo();
+        System.out.println("SOLUCION GREEDY");
+           mostrarSolucion(this.procesadores);
+        System.out.println("El tiempo óptimo Greedy es: " + calcularTiempoMaximo());
+        System.out.println("La cantidad de candidatos considerados por greedy fue = " + this.cantidadCandidatosGreedy);
     }
 
-    public void mostrarSolucion(){
-        for (Procesador p: this.procesadores
+    private void mostrarSolucion(LinkedList<Procesador> procesadores){
+        for (Procesador p: procesadores
              ) {
             System.out.println(p);
             for (Tarea t: p.getTareas()
@@ -192,21 +196,4 @@ public class Servicios {
         }
 
     }
-
-    public int getTiempoOptimoGreedy() {
-        int tiempoMaximo = 0;
-        for (Procesador p : this.procesadores) {
-            int tiempoProcesador = p.getTiempoTotal();
-            if (tiempoProcesador > tiempoMaximo) {
-                tiempoMaximo = tiempoProcesador;
-            }
-        }
-        return tiempoMaximo;
-    }
-
-    public int getCantidadCandidatosGreedy(){
-        return this.cantidadCandidatosGreedy;
-    }
-
-
 }

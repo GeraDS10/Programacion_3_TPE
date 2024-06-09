@@ -1,6 +1,4 @@
-import procesador.Procesador;
 import tarea.Tarea;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,46 +7,11 @@ public class Main {
 
     public static void main(String args[]) {
         Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas.csv", 90);
-
-        /*
-        BACKTRACKING
-         */
-
         servicios.backtracking();
-        LinkedList<Procesador> solucionBacktracking = servicios.getSolucionBacktracking();
-        System.out.println("SOLUCION BACKTRACKING");
-        for (Procesador p: solucionBacktracking
-             ) {
-            System.out.println(p);
-            for (Tarea t: p.getTareas()
-                 ) {
-                System.out.println(t);
-            }
-
-        }
-        System.out.println("El tiempo máximo de ejecución óptimo es: " + servicios.getTiempoOptimoBacktracking());
-        System.out.println("La cantidad de estados generados por backtracking es = " + servicios.getCantidadEstadosBacktraking());
-
-
-
-
-        /*
-        GREEDY
-         */
-
         System.out.println("");
-        System.out.println("SOLUCION GREEDY");
         servicios.greedy();
-        System.out.println("El tiempo máximo de ejecución óptimo es: " + servicios.getTiempoOptimoGreedy());
-        System.out.println("La cantidad de candidatos considerados por greedy fue = " + servicios.getCantidadCandidatosGreedy());
 
-
-
-
-
-
-        /*
-        ---------------SERVICIOS 1, 2, 3 --------------------------
+       // ---------------SERVICIOS 1, 2, 3 --------------------------
 
 
         System.out.println("--------SERVICIO 1 ------------");
@@ -101,7 +64,7 @@ public class Main {
 
 
 
-         */
+
 
     }
 }

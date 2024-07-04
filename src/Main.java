@@ -6,13 +6,18 @@ import java.util.List;
 public class Main {
 
     public static void main(String args[]) {
-        Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas.csv", 90);
-        servicios.backtracking();
+        Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas.csv");
+
+
+        servicios.backtracking(80);
         System.out.println("");
-        servicios.greedy();
+        servicios.greedy(80);
+
+
 
        // ---------------SERVICIOS 1, 2, 3 --------------------------
 
+        /*
 
         System.out.println("--------SERVICIO 1 ------------");
         Tarea porID = new Tarea();
@@ -62,7 +67,7 @@ public class Main {
             System.out.println(tarea);
         }
 
-
+*/
 
 
 

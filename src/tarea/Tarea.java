@@ -1,6 +1,6 @@
 package tarea;
 
-public class Tarea {
+public class Tarea implements Comparable<Tarea>{
     private String id;
     private String nombre;
     private Integer tiempo;
@@ -16,10 +16,11 @@ public class Tarea {
     }
 
     public Tarea(Tarea t){
-        this.id = t.id;
-        this.tiempo = t.tiempo;
-        this.critica = t.critica;
-        this.prioridad = t.prioridad;
+        this.id = t.getId();
+        this.nombre = t.getNombre();
+        this.tiempo = t.getTiempo();
+        this.critica = t.getCritica();
+        this.prioridad = t.getPrioridad();
     }
 
     public Tarea(){
@@ -42,7 +43,7 @@ public class Tarea {
         return critica;
     }
 
-    public Integer getPrioridad() {
+    public int getPrioridad() {
         return prioridad;
     }
 
@@ -53,6 +54,12 @@ public class Tarea {
         else {
             return false;
         }
+    }
+
+    @Override
+    public int compareTo(Tarea otraTarea) {
+        // Comparar por tiempo de ejecución en orden descendente (de mayor a menor)
+        return otraTarea.tiempo - this.tiempo;
     }
 
     @Override

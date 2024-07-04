@@ -5,11 +5,13 @@ import tarea.Tarea;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Procesador {
+public class Procesador{
     private String id;
     private String codigo;
     private Boolean refrigerado;
     private Integer anio;
+    private int cantidadCriticas;
+    private int tiempoEjecucion;
 
     private List<Tarea> tareas;
 
@@ -19,6 +21,8 @@ public class Procesador {
         this.refrigerado = refrigerado;
         this.anio = anio;
         this.tareas = new LinkedList<>();
+        this.cantidadCriticas = 0;
+        this.tiempoEjecucion = 0;
     }
 
     public Procesador(Procesador p){
@@ -41,7 +45,7 @@ public class Procesador {
     }
 
     public int getTiempoTotal() {
-        return tareas.stream().mapToInt(tarea -> tarea.getTiempo()).sum();
+        return this.tiempoEjecucion;
     }
 
     public boolean puedeTomarTarea(Tarea t, int X){
@@ -49,22 +53,39 @@ public class Procesador {
             return false;
         }
         // Check non-refrigerated processor time limit
-        if (!this.getRefrigerado() && (this.getTiempoTotal() + t.getTiempo()) > X) {
+        if ((this.getRefrigerado() == false) && ((this.getTiempoTotal() + t.getTiempo()) > X)) {
             return false;
         }
         return true;
     }
 
     public int getCantidadCriticas() {
-        return (int) tareas.stream().filter(task -> task.esCritica()).count();
+        return this.cantidadCriticas;
     }
 
     public void addTarea(Tarea t){
+
         this.tareas.add(t);
+        if (t.getCritica()) {
+            this.cantidadCriticas++;
+        }
+        this.tiempoEjecucion += t.getTiempo();
     }
 
     public void deleteUltimaTarea(){
-        this.tareas.remove(tareas.size() -1);
+
+        Tarea ultima = this.tareas.getLast();
+        this.tiempoEjecucion -= ultima.getTiempo();
+        if (ultima.getCritica()){
+            this.cantidadCriticas--;
+        }
+        this.tareas.removeLast();
+    }
+
+    public void deleteTareas(){
+        this.tareas.clear();
+        this.cantidadCriticas = 0;
+        this.tiempoEjecucion = 0;
     }
     public String getId() {
         return id;
@@ -91,4 +112,6 @@ public class Procesador {
                 ", anio=" + anio +
                 '}';
     }
+
+
 }

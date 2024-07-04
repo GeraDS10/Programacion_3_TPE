@@ -40,12 +40,6 @@ public class CSVReader {
             tareas.add(t);
 
         }
-
-        /*
-            for (Tarea value : tareas.values()) {
-                System.out.println("Valor: " + value);
-            }
-         */
         return tareas;
     }
 
@@ -68,11 +62,6 @@ public class CSVReader {
             Procesador p = new Procesador(id, codigo, refrigerado, anio);
             procesadores.add(p);
         }
-        /*
-            for (Procesador value : procesadores.values()) {
-                System.out.println("Valor: " + value);
-            }
-         */
         return procesadores;
     }
 
